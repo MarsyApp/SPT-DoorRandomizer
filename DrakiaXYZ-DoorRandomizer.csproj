@@ -83,4 +83,7 @@
       copy "J:\myMods\develop\SPT-DoorRandomizer\bin\Release\DrakiaXYZ-DoorRandomizer.dll" "C:\games\tark_3_5_6\SinglePlayerTarkov\BepInEx\plugins\DrakiaXYZ-DoorRandomizer.dll"
     </PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetPath)" "$(ProjectDir)\..\..\BepInEx\plugins\$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
