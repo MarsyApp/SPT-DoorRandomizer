@@ -31,7 +31,8 @@ namespace DrakiaXYZ.DoorRandomizer
                 doorCount++;
 
                 // We don't support doors that don't start open/closed
-                if (door.DoorState != EDoorState.Open && door.DoorState != EDoorState.Shut)
+                if (door.DoorState != EDoorState.Open && door.DoorState != EDoorState.Shut &&
+                    door.DoorState != EDoorState.Locked)
                 {
                     invalidStateCount++;
                     return;
@@ -51,8 +52,18 @@ namespace DrakiaXYZ.DoorRandomizer
                     return;
                 }
 
+                // Have a 5% chance to change open closed doors to locked
+                if (door.DoorState == EDoorState.Locked)
+                {
+                    if (!door.KeyId.IsNullOrEmpty() && UnityEngine.Random.Range(0, 100) < 5)
+                    {
+                        changedCount++;
+                        door.DoorState = EDoorState.Open;
+                        door.OnEnable();
+                    }
+                }
                 // Have a 50% chance to change the initial state of the door
-                if (UnityEngine.Random.Range(0, 100) < 50)
+                else if (UnityEngine.Random.Range(0, 100) < 50)
                 {
                     changedCount++;
                     door.DoorState = (door.InitialDoorState == EDoorState.Open ? EDoorState.Shut : EDoorState.Open);
